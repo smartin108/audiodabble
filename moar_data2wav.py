@@ -1,3 +1,18 @@
+""" audiodabble
+
+    convert phone sensor data to audio
+
+    designed to work in concert with phyphox, and specifically with csv output
+    from these experiments:
+        *   Acceleration (without g preferred)
+        *   Gyroscope rotation rate
+
+    Confirmed can not / will not support these experiments:
+        *   Acceleration Spectrum
+
+"""
+
+
 import numpy as np
 from scipy.io.wavfile import write
 from tkinter import Tk
@@ -44,6 +59,9 @@ def get_parent_folder_name(fqpn:str):
 
 def write_converted_data(data, experiment_name, col):
     data = data * SCALE
+
+    # it's non-obvious why 24 bit cannot be supported in this way
+    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.write.html#r8b5f41f7cc22-1
     if BIT_DEPTH == 16:
         data = data.astype(np.int16)
     elif BIT_DEPTH == 32:
