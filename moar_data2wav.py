@@ -48,22 +48,26 @@ def write_converted_data(data, experiment_name, col):
 
 
 def main():
+
     Tk().withdraw()
     filename = askopenfilename()
-    experiment_name = get_parent_folder_name(filename)
+    while filename:
+        experiment_name = get_parent_folder_name(filename)
 
-    data = get_file_content(filename=filename)
+        data = get_file_content(filename=filename)
 
-    if NORMALIZE_BY == 'all':
-        data = normalize(data[:, 1:4], normal_level=NORMALIZE_LEVEL)
-        for col in range(1,4):
-            write_converted_data(data[:, col], experiment_name, col)
-    elif NORMALIZE_BY == 'col':
-        for col in range(1,4):
-            data_subset = normalize(data[:, col], normal_level=NORMALIZE_LEVEL)
-            write_converted_data(data_subset, experiment_name, col)
-    else:
-        print('what? I did not understand what to do')
+        if NORMALIZE_BY == 'all':
+            data = normalize(data[:, 1:4], normal_level=NORMALIZE_LEVEL)
+            for col in range(1,4):
+                write_converted_data(data[:, col], experiment_name, col)
+        elif NORMALIZE_BY == 'col':
+            for col in range(1,4):
+                data_subset = normalize(data[:, col], normal_level=NORMALIZE_LEVEL)
+                write_converted_data(data_subset, experiment_name, col)
+        else:
+            print('what? I did not understand what to do')
+        Tk().withdraw()
+        filename = askopenfilename()
 
 
 if __name__ == '__main__':
