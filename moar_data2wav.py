@@ -8,7 +8,8 @@ from pathlib import Path
 # NORMALIZE_BY = 'all' # use this to to apply normalization per data set
 NORMALIZE_BY = 'col' # use this to apply normalization per column
 NORMALIZE_LEVEL = -1 # dBfs to normalize to
-BIT_DEPTH = 16 # only 16 is supported
+BIT_DEPTH = 32
+assert BIT_DEPTH in (16, 32)
 SAMPLE_RATE = 44100
 
 SCALE = 2**(BIT_DEPTH-1) - 1
@@ -43,7 +44,12 @@ def get_parent_folder_name(fqpn:str):
 
 def write_converted_data(data, experiment_name, col):
     data = data * SCALE
-    data = data.astype(np.int16)
+    if BIT_DEPTH == 16:
+        data = data.astype(np.int16)
+    elif BIT_DEPTH == 32:
+        data = data.astype(np.int32)
+    else:
+        raise ValueError(f'bit depth {BIT_DEPTH} is unsupported')
     write(f'{experiment_name}-{col}.wav', SAMPLE_RATE, data)
 
 
