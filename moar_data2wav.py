@@ -71,11 +71,18 @@ def write_converted_data(data, experiment_name, col):
     write(f'{experiment_name}-{col}.wav', SAMPLE_RATE, data)
 
 
-def main():
+def filename_generator():
+    # thanks ChatGPT 4o for this idea
+    while True:
+        Tk().withdraw()
+        filename = askopenfilename()
+        if not filename:
+            break
+        yield filename
 
-    Tk().withdraw()
-    filename = askopenfilename()
-    while filename:
+
+def main():
+    for filename in filename_generator():
         experiment_name = get_parent_folder_name(filename)
 
         data = get_file_content(filename=filename)
@@ -90,8 +97,6 @@ def main():
                 write_converted_data(data_subset, experiment_name, col)
         else:
             print('what? I did not understand what to do')
-        Tk().withdraw()
-        filename = askopenfilename()
 
 
 if __name__ == '__main__':
