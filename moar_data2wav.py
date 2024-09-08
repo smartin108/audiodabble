@@ -7,8 +7,10 @@
         *   Acceleration (without g preferred)
         *   Gyroscope rotation rate
 
-    Confirmed can not / will not support these experiments:
+    Confirmed can not support these experiments:
         *   Acceleration Spectrum
+
+    Other phyphox experiments have not been considered yet
 
 """
 
@@ -96,7 +98,7 @@ def main():
                 data_subset = normalize(data[:, col], normal_level=NORMALIZE_LEVEL)
                 write_converted_data(data_subset, experiment_name, col)
         else:
-            print('what? I did not understand what to do')
+            raise NotImplementedError(f'NORMALIZE_BY {NORMALIZE_BY} is not implemented')
 
 
 if __name__ == '__main__':
