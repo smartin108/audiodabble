@@ -25,7 +25,7 @@ from pathlib import Path
 # NORMALIZE_BY = 'all' # use this to to apply normalization per data set
 NORMALIZE_BY = 'col' # use this to apply normalization per column
 NORMALIZE_LEVEL = -1 # dBfs to normalize to
-BIT_DEPTH = 32
+BIT_DEPTH = 16
 assert BIT_DEPTH in (16, 32)
 SAMPLE_RATE = 44100
 
