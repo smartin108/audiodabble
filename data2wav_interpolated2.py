@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import PchipInterpolator, CubicSpline
 from scipy.io.wavfile import write as wavwrite
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+
 
 TIME_COL = 'Time (s)'
 X_COL = 'Linear Acceleration x (m/s^2)'
@@ -92,11 +95,31 @@ def phyphox_to_wav_fixed(
     wavwrite(wav_path, out_rate, pcm16)
     print(f"Wrote: {wav_path}")
 
-phyphox_to_wav_fixed(
-    csv_path=r"C:\Users\Z40\Documents\git\audiodabble\acceleration_air_filter\Raw Data.csv",
-    wav_path="accel_xyz_pchip.wav",
-    speed=20.0,
-    out_rate=44100,
-    interp="pchip",
-    mode="xyz",
-)
+
+def filename_generator():
+    # thanks ChatGPT 4o for this idea
+    while True:
+        Tk().withdraw()
+        filename = askopenfilename()
+        if not filename:
+            break
+        yield filename
+
+
+def main():
+
+    # for filename in [r"./dryer/Raw Data.csv"]:
+    for filename in filename_generator():
+        phyphox_to_wav_fixed(
+            # csv_path=r"./dryer/Raw Data.csv",
+            csv_path=filename,
+            wav_path="accel_xyz_pchip.wav",
+            speed=20.0,
+            out_rate=44100,
+            interp="pchip",
+            mode="xyz",
+        )
+
+
+if __name__ == '__main__':
+    main()

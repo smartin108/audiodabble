@@ -115,3 +115,7 @@ phyphox_accel_to_wav(
     interp="pchip",
     mode="xyz",
 )
+
+
+if __name__ == '__main__':
+    print('this version was a chatgpt mistake')
